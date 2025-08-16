@@ -162,9 +162,8 @@
     </div>
 
     <div class="hero-card cake-wrap">
-      <!-- Put your cake image at images/cake.png -->
       <img class="cake" src="images/cake.png" alt="cake"
-      <div class="subtitle" style="text-align:center; margin-top:10px;">(Add <code>images/cake.png</code> to show cake)</div>
+      <div class="subtitle" style="text-align:center; margin-top:10px;"></div>
     </div>
   </section>
 
@@ -213,10 +212,10 @@
 
   // Quotes carousel
   const QUOTES = [
-    {text:'A PURE MASTERPIECE IS ALWAYS A PURE MASTERPIECE 🌹', who:'waizmarco'},
+    {text:'Happy birthday, Shabaan! May your day be filled with joy, love, and everything you wish for.🌹', who:'HSTLR'},
     {text:'May your story stay brave, kind and unstoppable.', who:'Marco'},
-    {text:'Legacy is written by choices made daily.', who:'—'},
-    {text:'Live gentle. Think sharp. Move bold.', who:'—'},
+    {text:'We Are together 💙Ayan 💚Waiz 💛Faizan ❤️You 🫵', who:'HSTLR'},
+    {text:'🐭🐀 Rat ka listing 💀💀, who:'—'},
     {text:'May this year bring you strength, wisdom and peace.', who:'—'}
   ];
   let idx = 0; let timer = null;
@@ -228,7 +227,7 @@
       dots.appendChild(d);
     }
   }
-  function showQuote(i){
+  function showQuote(i)
     idx = (i+QUOTES.length)%QUOTES.length;
     const q = QUOTES[idx];
     quoteBox.style.opacity='0';
