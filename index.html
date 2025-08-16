@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>HAPPY BIRTHDAY SHABAAN — Celebration</title>
+  <style>
+    /* ======================
+       Reset & Base
+       ====================== */
+    :root{
+      --bg1:#060616;
+      --bg2:#07102a;
+      --accent1:#ff00de;
+      --accent2:#00e0ff;
+      --card:#0b1222;
+      --glass: rgba(255,255,255,0.05);
+      --glass-2: rgba(255,255,255,0.02);
+      --soft: 14px;
+      --radius: 18px;
+      --maxWidth:1200px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      min-height:100vh;display:flex;align-items:center;justify-content:center;padding:30px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue';
+      background: radial-gradient(1200px 800px at 10% 10%, rgba(10,8,30,0.85) 0%, transparent 25%),
+                  radial-gradient(900px 600px at 90% 90%, rgba(6,12,40,0.75) 0%, transparent 25%),
+                  linear-gradient(180deg,var(--bg1),var(--bg2));
+      color:#eaf2ff;overflow:hidden;
+    }
+
+    /* ======================
+       Stage Layout
+       ====================== */
+    .container{width:100%;max-width:var(--maxWidth);display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:stretch}
+    @media (max-width:1100px){.container{grid-template-columns:1fr;max-width:980px;padding:20px}}
+
+    /* ======================
+       Left — Main Stage
+       ====================== */
+    .stage{
+      position:relative;padding:36px;border-radius:22px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      box-shadow:0 30px 80px rgba(3,6,20,0.7), inset 0 1px 0 rgba(255,255,255,0.02);
+      overflow:visible;min-height:620px
+    }
+
+    /* background stars + soft vignette */
+    .stage::before{content:'';position:absolute;inset:0;border-radius:22px;pointer-events:none;background-image:radial-gradient(transparent 40%, rgba(255,255,255,0.02) 60%);mix-blend-mode:screen}
+
+    /* headline container with perspective for 3D text */
+    .hero{
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;height:100%;text-align:center;position:relative;padding-top:24px;padding-bottom:24px
+    }
+
+    .headline-wrap{perspective:1800px}
+    .headline{
+      display:inline-block;padding:18px 36px;border-radius:14px;transform-style:preserve-3d;
+      font-weight:900;font-size:64px;letter-spacing:6px;text-transform:uppercase;line-height:0.95;
+      color:transparent;background:linear-gradient(90deg,var(--accent1),#9b5cff 35%,var(--accent2));
+      -webkit-background-clip:text;background-clip:text;position:relative;z-index:2
+    }
+
+    /* rich layered 3D neon effect */
+    .headline::after,.headline::before{
+      content:attr(data-text);position:absolute;left:0;right:0;top:0;bottom:0;z-index:-1;
+      -webkit-text-stroke:1px rgba(255,255,255,0.06);filter:blur(12px);opacity:0.6;mix-blend-mode:screen
+    }
+    .headline::before{transform:translateZ(-30px) scale(1.02);color:rgba(155,92,255,0.25)}
+    .headline::after{transform:translateZ(-60px) scale(1.06);color:rgba(0,224,255,0.18)}
+
+    /* Subheading / subtitle */
+    .sub{font-size:14px;opacity:0.85;margin-top:6px}
+
+    /* floating cake card */
+    .cake-card{margin-top:8px;width:420px;height:420px;border-radius:20px;overflow:hidden;display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);box-shadow:0 20px 60px rgba(2,6,20,0.6)}
+
+    .cake-card-inner{width:92%;height:92%;border-radius:16px;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center}
+    .cake-card img{width:95%;height:95%;object-fit:cover;border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,0.65)}
+
+    /* interactive control bar below hero */
+    .controls{display:flex;gap:12px;margin-top:18px}
+    .control-btn{padding:12px 16px;border-radius:12px;border:none;cursor:pointer;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));color:var(--accent1);font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,0.5)}
+
+    .primary{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#011;box-shadow:0 12px 40px rgba(0,224,255,0.08)}
+
+    /* decorative motion orbs */
+    .orb{position:absolute;width:240px;height:240px;border-radius:50%;filter:blur(40px);opacity:0.12;pointer-events:none}
+    .orb.orb1{right:-80px;top:-40px;background:radial-gradient(circle, var(--accent2), transparent 40%)}
+    .orb.orb2{left:-80px;bottom:-40px;background:radial-gradient(circle, var(--accent1), transparent 40%)}
+
+    /* small footer tip */
+    .tip{position:absolute;left:22px;bottom:16px;font-size:12px;opacity:0.6}
+
+    /* ======================
+       Right — Sidebar (Quotes & Effects)
+       ====================== */
+    .panel{padding:20px;border-radius:20px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));box-shadow:0 18px 50px rgba(2,6,20,0.6);display:flex;flex-direction:column;gap:16px}
+    .panel h3{font-size:18px}
+
+    .quote-list{display:flex;flex-direction:column;gap:10px;max-height:380px;overflow:auto;padding-right:6px}
+    .quote-item{padding:12px;border-radius:12px;background:linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);display:flex;flex-direction:column;gap:8px}
+    .quote-item .qtext{font-size:15px}
+    .quote-item .who{font-size:12px;align-self:flex-end;font-weight:700;color:var(--accent1)}
+
+    .effects{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+    .effect-btn{padding:10px 12px;border-radius:10px;border:none;background:var(--glass);cursor:pointer;font-weight:700}
+
+    /* modal for surprise full reveal */
+    .modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(2,6,20,0.6);backdrop-filter: blur(6px);opacity:0;pointer-events:none;transition:opacity .28s}
+    .modal.show{opacity:1;pointer-events:auto}
+    .modal-card{width:min(880px,95%);max-height:90vh;border-radius:18px;background:linear-gradient(180deg, rgba(10,10,20,0.96), rgba(6,6,16,0.94));padding:20px;display:grid;grid-template-columns:380px 1fr;gap:18px;align-items:start}
+
+    .modal-left{display:flex;align-items:center;justify-content:center}
+    .modal-left img{width:340px;height:340px;object-fit:cover;border-radius:14px;border:6px solid rgba(255,255,255,0.03);box-shadow:0 22px 60px rgba(0,0,0,0.7)}
+
+    .modal-right{overflow:auto;padding:6px}
+    .modal-right h2{font-size:26px;margin-bottom:8px}
+    .modal-quote{padding:12px;border-radius:12px;margin-bottom:12px;background:linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:inset 0 1px 0 rgba(255,255,255,0.02)}
+    .modal-quote .who{font-weight:800;color:var(--accent2);margin-top:8px}
+
+    .modal-close{position:absolute;right:22px;top:22px;background:transparent;border:0;color:#fff;font-size:18px;cursor:pointer}
+
+    /* confetti pieces (absolute) */
+    .confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+
+    /* tiny sparkles layer */
+    .sparkles{position:absolute;inset:0;pointer-events:none}
+    .sparkles .s{position:absolute;width:6px;height:6px;border-radius:50%;opacity:0.6;filter:blur(1px)}
+
+    /* fireworks canvas sits on top */
+    canvas#fwCanvas{position:absolute;inset:0;pointer-events:none}
+
+    /* ======================
+       Utilities & Accessibility
+       ====================== */
+    .visually-hidden{position:absolute;left:-9999px}
+    .center{display:flex;align-items:center;justify-content:center}
+
+    /* scrollbar tiny style for quotes */
+    .quote-list::-webkit-scrollbar{width:8px}
+    .quote-list::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--accent1),var(--accent2));border-radius:8px}
+
+    /* responsive tweaks */
+    @media (max-width:900px){
+      .headline{font-size:46px}
+      .cake-card{width:320px;height:320px}
+      .modal-card{grid-template-columns:1fr}
+      .modal-left img{width:80%;height:auto}
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- LEFT: main stage -->
+    <main class="stage">
+      <div class="orb orb1" aria-hidden></div>
+      <div class="orb orb2" aria-hidden></div>
+
+      <div class="hero">
+        <div class="headline-wrap">
+          <div class="headline" id="mainTitle" data-text="HAPPY BIRTHDAY SHABAAN">HAPPY BIRTHDAY SHABAAN</div>
+        </div>
+        <div class="sub">A celebration made with love — click the surprises & effects below</div>
+
+        <div class="cake-card" role="img" aria-label="Birthday cake">
+          <div class="cake-card-inner">
+            <img src="cake.png" alt="Cake — place cake.png next to this file" id="bigCake">
+          </div>
+        </div>
+
+        <div class="controls">
+          <button class="control-btn primary" id="surpriseBtn" title="Open surprise">🎁 Surprise</button>
+          <button class="control-btn" id="confettiBtn" title="Tiny confetti">✨ Confetti</button>
+          <button class="control-btn" id="fireBtn" title="Fireworks">🎆 Fireworks</button>
+          <button class="control-btn" id="musicBtn" title="Play a tune">🔊 Music</button>
+          <button class="control-btn" id="glowToggle" title="Toggle headline glow">💡 Glow</button>
+        </div>
+
+        <div class="tip">Tip: press ← → to browse quotes in the modal. Press P for party.</div>
+      </div>
+    </main>
+
+    <!-- RIGHT: side panel -->
+    <aside class="panel">
+      <h3>Messages for Shabaan</h3>
+      <div class="quote-list" id="quoteList">
+        <!-- populated by JS -->
+      </div>
+
+      <div class="effects">
+        <button class="effect-btn" id="smallConfetti">Small Confetti</button>
+        <button class="effect-btn" id="bigConfetti">Big Confetti</button>
+        <button class="effect-btn" id="sparklesBtn">Sparkles</button>
+        <button class="effect-btn" id="invertBtn">Invert Colors</button>
+      </div>
+
+      <div style="margin-top:auto;font-size:12px;opacity:0.7">Made with love by Mahira — customize as you like.</div>
+    </aside>
+
+  </div>
+
+  <!-- confetti layer -->
+  <div class="confetti" id="confettiLayer" aria-hidden></div>
+  <div class="sparkles" id="sparkleLayer" aria-hidden></div>
+  <canvas id="fwCanvas" width="1600" height="900" aria-hidden></canvas>
+
+  <!-- Modal full surprise -->
+  <div class="modal" id="modal">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" id="closeModal">✕</button>
+      <div class="modal-left center">
+        <img src="shabaan.jpg" alt="Shabaan — place shabaan.jpg next to this file" id="shabaanImg">
+      </div>
+      <div class="modal-right">
+        <h2 id="modalTitle">Surprise! Special messages</h2>
+        <div id="modalQuotes">
+          <!-- quotes injected -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <audio id="bgMusic" src="" preload="auto"></audio>
+
+  <script>
+    /* ======================
+       Data: quotes as requested
+       ====================== */
+    const quotes = [
+      {text: 'Happy birthday, Shabaan! May your day be filled with joy, love, and everything you wish for.🌹', who: 'HSTLR'},
+      {text: 'May your story stay brave, kind and unstoppable.', who: 'Marco'},
+      {text: 'We Are together 💙Ayan 💚Waiz 💛Faizan ❤️You 🫵', who: 'HSTLR'},
+      {text: '🐭🐀 Rat ka listing 💀💀', who: '—'},
+      {text: 'May this year bring you strength, wisdom and peace.', who: '—'}
+    ];
+
+    // Populate right-hand quote list
+    const quoteList = document.getElementById('quoteList');
+    quotes.forEach((q, i)=>{
+      const el = document.createElement('div'); el.className='quote-item';
+      el.innerHTML = `<div class="qtext">${escapeHtml(q.text)}</div><div class="who">${escapeHtml(q.who)}</div>`;
+      el.addEventListener('click', ()=> openModal(i));
+      quoteList.appendChild(el);
+    });
+
+    // modal quotes
+    const modalQuotes = document.getElementById('modalQuotes');
+    function renderModalQuotes(selectedIndex=0){
+      modalQuotes.innerHTML = '';
+      quotes.forEach((q,idx)=>{
+        const el = document.createElement('div'); el.className='modal-quote';
+        el.style.borderLeft = (idx===selectedIndex)? '4px solid var(--accent1)' : '4px solid transparent';
+        el.innerHTML = `<div style="font-size:16px">${escapeHtml(q.text)}</div><div class="who">${escapeHtml(q.who)}</div>`;
+        modalQuotes.appendChild(el);
+      });
+    }
+
+    // trim & escape for safety display
+    function escapeHtml(s){ return String(s).replace(/[&<>\"]+/g, function(ch){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch] || ch; }); }
+
+    /* ======================
+       Interactivity: modal open/close + keyboard
+       ====================== */
+    const modal = document.getElementById('modal');
+    const surpriseBtn = document.getElementById('surpriseBtn');
+    const closeModal = document.getElementById('closeModal');
+    let activeIndex = 0;
+
+    function openModal(index=0){
+      activeIndex = index;
+      renderModalQuotes(activeIndex);
+      modal.classList.add('show');
+      document.body.style.overflow = 'hidden';
+      // spotlight animation on image
+      sparkleOnce();
+    }
+    function close(){ modal.classList.remove('show'); document.body.style.overflow=''; }
+
+    surpriseBtn.addEventListener('click', ()=>openModal(0));
+    closeModal.addEventListener('click', close);
+    modal.addEventListener('click', (e)=>{ if(e.target===modal) close(); });
+
+    // keyboard navigation when modal open
+    window.addEventListener('keydown', (e)=>{
+      if(modal.classList.contains('show')){
+        if(e.key === 'ArrowRight') { activeIndex = (activeIndex+1) % quotes.length; renderModalQuotes(activeIndex); }
+        if(e.key === 'ArrowLeft') { activeIndex = (activeIndex-1+quotes.length) % quotes.length; renderModalQuotes(activeIndex); }
+        if(e.key.toLowerCase()==='p') triggerParty();
+      }
+    });
+
+    /* ======================
+       Effects: confetti, fireworks, sparkles
+       ====================== */
+    const confettiLayer = document.getElementById('confettiLayer');
+    const sparkleLayer = document.getElementById('sparkleLayer');
+    const fwCanvas = document.getElementById('fwCanvas');
+    const fwCtx = fwCanvas.getContext('2d');
+    let fireworks = [];
+
+    // responsive canvas size
+    function resizeCanvas(){ fwCanvas.width = innerWidth; fwCanvas.height = innerHeight; }
+    addEventListener('resize', resizeCanvas); resizeCanvas();
+
+    // confetti burst generator
+    function confettiBurst(amount=60){
+      const w = innerWidth; const h = innerHeight;
+      for(let i=0;i<amount;i++){
+        const el = document.createElement('div');
+        el.className = 'c';
+        const size = 6 + Math.random()*12; el.style.width = size+'px'; el.style.height = (size*1.2)+'px';
+        el.style.position='absolute'; el.style.left = (50 + (Math.random()-0.5)*50) + '%'; el.style.top = '-10%';
+        el.style.background = `linear-gradient(180deg,hsl(${Math.random()*360} 80% 60%), hsl(${Math.random()*360} 60% 50%))`;
+        el.style.borderRadius = (Math.random()>0.5?2:10)+'px'; el.style.transform = `rotate(${Math.random()*360}deg)`;
+        el.style.opacity = 0.95; el.style.pointerEvents='none';
+        confettiLayer.appendChild(el);
+        // animate using JS
+        const fall = 2200 + Math.random()*1200; const left = (Math.random()*120 - 10);
+        el.animate([
+          {transform:`translateY(0) translateX(0) rotate(0)`, opacity:1},
+          {transform:`translateY(${innerHeight+200}px) translateX(${left}px) rotate(${Math.random()*720}deg)`, opacity:0.8}
+        ], {duration:fall, easing:'cubic-bezier(.2,.8,.2,1)'});
+        setTimeout(()=>el.remove(), fall+200);
+      }
+    }
+
+    // tiny confetti quick
+    document.getElementById('confettiBtn').addEventListener('click', ()=>confettiBurst(36));
+    document.getElementById('smallConfetti').addEventListener('click', ()=>confettiBurst(32));
+    document.getElementById('bigConfetti').addEventListener('click', ()=>confettiBurst(140));
+
+    // sparkles
+    let sparkleTimer;
+    function sparkleOnce(){
+      for(let i=0;i<40;i++){
+        const s = document.createElement('div'); s.className='s';
+        s.style.left = (20 + Math.random()*60) + '%'; s.style.top = (10 + Math.random()*70)+'%';
+        s.style.background = (Math.random()>0.5)?'var(--accent1)':'var(--accent2)';
+        s.style.width = s.style.height = (2 + Math.random()*6) + 'px';
+        sparkleLayer.appendChild(s);
+        s.animate([{opacity:1, transform:'scale(1)'}, {opacity:0, transform:'scale(0.2)'}], {duration:900+Math.random()*800, easing:'cubic-bezier(.2,.9,.3,1)'});
+        setTimeout(()=>s.remove(), 1800);
+      }
+    }
+    document.getElementById('sparklesBtn').addEventListener('click', sparkleOnce);
+
+    // fireworks simple engine
+    function spawnFirework(x,y){
+      const hue = Math.random()*360;
+      const particles = [];
+      for(let i=0;i<80;i++){
+        particles.push({x,y, vx:(Math.random()-0.5)*6, vy:(Math.random()-1.8)*6, life: 60+Math.random()*40, color:`hsl(${hue} 80% 60%)`});
+      }
+      fireworks.push({particles});
+    }
+
+    function updateFireworks(){
+      fwCtx.clearRect(0,0,fwCanvas.width,fwCanvas.height);
+      for(let k=fireworks.length-1;k>=0;k--){
+        const f = fireworks[k];
+        for(let i=f.particles.length-1;i>=0;i--){
+          const p = f.particles[i]; p.x += p.vx; p.y += p.vy; p.vy += 0.12; p.life--;
+          fwCtx.globalAlpha = Math.max(0, p.life / 100);
+          fwCtx.fillStyle = p.color; fwCtx.fillRect(p.x, p.y, 3, 3);
+          if(p.life<=0) f.particles.splice(i,1);
+        }
+        if(f.particles.length===0) fireworks.splice(k,1);
+      }
+      requestAnimationFrame(updateFireworks);
+    }
+    updateFireworks();
+
+    document.getElementById('fireBtn').addEventListener('click', ()=>{
+      spawnFirework(innerWidth*0.45, innerHeight*0.4);
+      spawnFirework(innerWidth*0.6, innerHeight*0.25);
+    });
+
+    function triggerParty(){ confettiBurst(100); spawnFirework(innerWidth*0.45, innerHeight*0.45); sparkleOnce(); }
+
+    /* ======================
+       Music (optional): simple tune using WebAudio
+       ====================== */
+    let audioCtx, oscillator, gainNode, musicPlaying=false;
+    document.getElementById('musicBtn').addEventListener('click', ()=>{
+      if(!audioCtx){
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        gainNode = audioCtx.createGain(); gainNode.gain.value = 0.06; gainNode.connect(audioCtx.destination);
+      }
+      if(musicPlaying){ stopTune(); } else { playTune(); }
+    });
+
+    function playTune(){
+      const now = audioCtx.currentTime; musicPlaying=true; document.getElementById('musicBtn').textContent='🔇 Music';
+      const notes=[440,494,523,587,659,698,784];
+      let t=0;
+      oscillator = audioCtx.createOscillator(); oscillator.type='sine'; oscillator.frequency.setValueAtTime(notes[0], now);
+      oscillator.connect(gainNode); oscillator.start();
+      // simple arpeggio
+      notes.forEach((n, idx)=>{ oscillator.frequency.linearRampToValueAtTime(n, now + idx*0.2); });
+      setTimeout(()=>{ stopTune(); }, 1800);
+    }
+    function stopTune(){ if(oscillator){ oscillator.stop(); oscillator.disconnect(); oscillator=null;} musicPlaying=false; document.getElementById('musicBtn').textContent='🔊 Music'; }
+
+    /* ======================
+       UI Behaviors: headlight glow toggle + hover tilt
+       ====================== */
+    const glowToggle = document.getElementById('glowToggle');
+    const mainTitle = document.getElementById('mainTitle');
+    let glowOn = true; glowToggle.addEventListener('click', ()=>{ glowOn=!glowOn; if(!glowOn){ mainTitle.style.textShadow='none'; mainTitle.style.filter='brightness(.95)'; } else { mainTitle.style.textS
