@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Happy Birthday Shabaan — Mini</title>
+  <style>
+    :root{--bg:#070717;--card:#0e1726;--accent1:#ff5ad9;--accent2:#5ee7ff;--glass:rgba(255,255,255,0.04);--radius:14px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{min-height:100vh;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:radial-gradient(800px 400px at 10% 10%,#0b0b18,transparent),linear-gradient(#050510,var(--bg));color:#eef2ff;display:flex;align-items:center;justify-content:center;padding:18px}
+
+    /* Wrapper */
+    .wrap{width:100%;max-width:980px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:18px;padding:18px;display:grid;grid-template-columns:1fr 340px;gap:18px;box-shadow:0 18px 60px rgba(2,6,20,0.7)}
+    @media (max-width:900px){.wrap{grid-template-columns:1fr;padding:14px}}
+
+    /* Left hero */
+    .hero{padding:14px;display:flex;flex-direction:column;align-items:center;gap:12px}
+    .title{font-size:44px;font-weight:800;letter-spacing:2px;text-transform:uppercase;line-height:1;position:relative}
+    /* 3D neon text */
+    .title .text{background:linear-gradient(90deg,var(--accent1),#9b5cff 35%,var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent;font-size:clamp(28px,6vw,44px);padding:6px 12px;border-radius:8px}
+    .title .text::after{content:attr(data-text);position:absolute;left:0;right:0;top:0;bottom:0;z-index:-1;color:rgba(94,231,255,0.12);filter:blur(12px);transform:translateZ(-20px)}
+
+    .subtitle{font-size:13px;opacity:0.85}
+
+    /* cake */
+    .cake{width:320px;height:320px;border-radius:14px;overflow:hidden;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.03);background:linear-gradient(180deg, var(--card), rgba(255,255,255,0.01));box-shadow:0 18px 50px rgba(3,6,20,0.6)}
+    .cake img{width:94%;height:94%;object-fit:cover;border-radius:10px;transition:transform .8s cubic-bezier(.2,.9,.3,1)}
+    .cake:hover img{transform:scale(1.06) translateY(-8px)}
+
+    /* controls */
+    .controls{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+    .btn{background:var(--glass);border:1px solid rgba(255,255,255,0.03);padding:10px 14px;border-radius:10px;color:var(--accent1);font-weight:700;cursor:pointer;position:relative;overflow:hidden}
+    .btn.primary{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#081018}
+    .btn:active .ripple{transform:scale(0);opacity:0.6}
+    .ripple{position:absolute;border-radius:50%;transform:scale(2);opacity:0;pointer-events:none}
+
+    /* right panel */
+    .panel{padding:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));border-radius:12px;display:flex;flex-direction:column;gap:12px}
+    .panel h3{font-size:16px}
+    .quotes{display:flex;flex-direction:column;gap:8px;max-height:420px;overflow:auto;padding-right:6px}
+    .q{padding:10px;border-radius:10px;background:linear-gradient(135deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.02);font-size:14px}
+    .q .who{margin-top:8px;font-weight:800;color:var(--accent2);font-size:12px;text-align:right}
+
+    /* modal */
+    .modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(2,6,20,0.6);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .28s}
+    .modal.show{opacity:1;pointer-events:auto}
+    .card{width:min(880px,94%);border-radius:12px;background:linear-gradient(180deg,#071226,#06101a);padding:14px;display:grid;grid-template-columns:320px 1fr;gap:12px;align-items:start}
+    .card img{width:100%;height:100%;object-fit:cover;border-radius:8px;border:4px solid rgba(255,255,255,0.03);box-shadow:0 18px 60px rgba(0,0,0,0.7)}
+    .mq{padding:10px;border-radius:10px;background:linear-gradient(135deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));margin-bottom:10px}
+    .close{position:absolute;right:16px;top:16px;background:transparent;border:0;color:#fff;font-size:20px;cursor:pointer}
+
+    /* confetti pieces */
+    .confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+
+    /* fireworks canvas */
+    canvas{position:fixed;inset:0;pointer-events:none}
+
+    /* small helpers */
+    .muted{opacity:0.7;font-size:13px}
+    .center{display:flex;align-items:center;justify-content:center}
+
+    @media (max-width:900px){.cake{width:260px;height:260px}.wrap{gap:12px}.title{font-size:28px}.card{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+  <div class="wrap">
+    <section class="hero">
+      <div class="title"><span class="text" data-text="HAPPY BIRTHDAY SHABAAN">HAPPY BIRTHDAY SHABAAN</span></div>
+      <div class="subtitle">A simple, cool & unique birthday page — tap surprise for magic ✨</div>
+
+      <div class="cake" aria-hidden>
+        <img src="cake.png" alt="cake" id="cakeImg">
+      </div>
+
+      <div class="controls">
+        <button class="btn primary" id="surprise">🎁 Surprise</button>
+        <button class="btn" id="confettiBtn">✨ Confetti</button>
+        <button class="btn" id="fireBtn">🎆 Fireworks</button>
+        <button class="btn" id="musicBtn">🔊 Music</button>
+      </div>
+
+      <div class="muted">Place <strong>cake.png</strong> and <strong>shabaan.jpg</strong> beside this file.</div>
+    </section>
+
+    <aside class="panel">
+      <h3>Special messages</h3>
+      <div class="quotes" id="quotes">
+        <!-- js inject -->
+      </div>
+      <div class="muted">Tap any message to open full surprise. Mobile friendly.</div>
+    </aside>
+  </div>
+
+  <div class="modal" id="modal">
+    <div class="card" role="dialog" aria-modal="true">
+      <button class="close" id="close">✕</button>
+      <div class="center"><img src="shabaan.jpg" alt="Shabaan" id="shImg"></div>
+      <div>
+        <h2 id="mTitle">Happy birthday, Shabaan!</h2>
+        <div id="mMsgs"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="confetti" id="confetti"></div>
+  <canvas id="fw"></canvas>
+  <audio id="audio" preload="auto"></audio>
+
+  <script>
+    // Quotes data
+    const quotes = [
+      {text:'Happy birthday, Shabaan! May your day be filled with joy, love, and everything you wish for.🌹',who:'HSTLR'},
+      {text:'May your story stay brave, kind and unstoppable.',who:'Marco'},
+      {text:'We Are together 💙Ayan 💚Waiz 💛Faizan ❤️You 🫵',who:'HSTLR'},
+      {text:'🐭🐀 Rat ka listing 💀💀',who:'—'},
+      {text:'May this year bring you strength, wisdom and peace.',who:'—'}
+    ];
+
+    // Populate side list
+    const qCont = document.getElementById('quotes');
+    quotes.forEach((q,i)=>{
+      const el = document.createElement('div'); el.className='q';
+      el.innerHTML = `<div class="qt">${escapeHtml(q.text)}</div><div class="who">${escapeHtml(q.who)}</div>`;
+      el.addEventListener('click', ()=>openModal(i));
+      qCont.appendChild(el);
+    });
+
+    function escapeHtml(s){ return String(s).replace(/[&<>\"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]||ch)); }
+
+    // Elements
+    const modal = document.getElementById('modal');
+    const mMsgs = document.getElementById('mMsgs');
+    const shImg = document.getElementById('shImg');
+    const closeBtn = document.getElementById('close');
+    const surpriseBtn = document.getElementById('surprise');
+    const confettiLayer = document.getElementById('confetti');
+    const fw = document.getElementById('fw'); const fwCtx = fw.getContext('2d');
+
+    function openModal(index=0){
+      renderModal(index);
+      modal.classList.add('show'); document.body.style.overflow='hidden';
+      sparkle();
+    }
+    function closeModal(){ modal.classList.remove('show'); document.body.style.overflow=''; }
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click',(e)=>{ if(e.target===modal) closeModal(); });
+
+    function renderModal(idx){
+      mMsgs.innerHTML='';
+      quotes.forEach((q,i)=>{
+        const d = document.createElement('div'); d.className='mq';
+        d.innerHTML = `<div>${escapeHtml(q.text)}</div><div class="who">${escapeHtml(q.who)}</div>`;
+        if(i===idx){ d.style.boxShadow='0 12px 50px rgba(94,231,255,0.08)'; d.style.transform='translateX(0)'; }
+        mMsgs.appendChild(d);
+      });
+      // image pulse
+      shImg.animate([{transform:'scale(1)'},{transform:'scale(1.03)'}],{duration:900,iterations:4,direction:'alternate'});
+    }
+
+    // Surprise button opens modal
+    surpriseBtn.addEventListener('click', ()=>openModal(0));
+
+    // Ripple effect for buttons
+    document.querySelectorAll('.btn').forEach(btn=>{
+      btn.addEventListener('click',(e)=>{
+        const r = document.createElement('span'); r.className='ripple'; btn.appendChild(r);
+        const size = Math.max(btn.clientWidth,btn.clientHeight); r.style.width=r.style.height=size+'px';
+        const rect = btn.getBoundingClientRect(); r.style.left=(e.clientX-rect.left-size/2)+'px'; r.style.top=(e.clientY-rect.top-size/2)+'px';
+        r.style.background = getComputedStyle(btn).backgroundImage.includes('linear-gradient')? 'rgba(0,0,0,0.08)':'rgba(255,90,200,0.12)';
+        r.style.transition='opacity .6s, transform .6s'; r.style.transform='scale(0)'; r.style.opacity='0.9';
+        setTimeout(()=>r.style.opacity='0',20); setTimeout(()=>r.remove(),700);
+      });
+    });
+
+    // Confetti simple
+    function confetti(count=40){
+      for(let i=0;i<count;i++){
+        const p = document.createElement('div'); p.style.position='absolute'; p.style.left=(20+Math.random()*60)+'%'; p.style.top='-5%';
+        const w=6+Math.random()*12; p.style.width=w+'px'; p.style.height=(w*1.2)+'px'; p.style.borderRadius=(Math.random()>0.5?2:8)+'px';
+        p.style.background = `hsl(${Math.random()*360} 80% 60%)`; p.style.transform = `rotate(${Math.random()*360}deg)`; p.style.opacity='0.95'; p.style.pointerEvents='none';
+        confettiLayer.appendChild(p);
+        const fall = 2000 + Math.random()*1600; const dx = (Math.random()*200-100);
+        p.animate([{transform:'translate(0,0)'},{transform:`translate(${dx}px,${innerHeight+200}px) rotate(${Math.random()*720}deg)`}],{duration:fall,easing:'cubic-bezier(.2,.8,.2,1)'});
+        setTimeout(()=>p.remove(),fall+100);
+      }
+    }
+    document.getElementById('confettiBtn').addEventListener('click',()=>confetti(36));
+
+    // Fireworks on canvas
+    let rockets=[]; fw.width=innerWidth; fw.height=innerHeight; window.addEventListener('resize',()=>{fw.width=innerWidth;fw.height=innerHeight});
+    function spawnFire(x,y){
+      const hue=Math.random()*360; const parts=[]; for(let i=0;i<60;i++){ parts.push({x,y,vx:(Math.random()-0.5)*6,vy:(Math.random()-1.8)*6,l:60+Math.random()*40,color:`hsl(${hue} 80% 60%)`}) }
+      rockets.push({parts});
+    }
+    function update(){ fwCtx.clearRect(0,0,fw.width,fw.height); for(let r=rockets.length-1;r>=0;r--){ const rocket=rockets[r]; for(let i=rocket.parts.length-1;i>=0;i--){ const p=rocket.parts[i]; p.x+=p.vx; p.y+=p.vy; p.vy+=0.12; p.l--; fwCtx.globalAlpha=Math.max(0,p.l/90); fwCtx.fillStyle=p.color; fwCtx.fillRect(p.x,p.y,3,3); if(p.l<=0) rocket.parts.splice(i,1); } if(rocket.parts.length===0) rockets.splice(r,1); } requestAnimationFrame(update); }
+    update();
+    document.getElementById('fireBtn').addEventListener('click',()=>{ spawnFire(innerWidth*0.5,innerHeight*0.35); spawnFire(innerWidth*0.35,innerHeight*0.25); });
+
+    // Simple sparkle on modal open
+    function sparkle(){ for(let i=0;i<30;i++){ const s=document.createElement('div'); s.style.position='absolute'; s.style.left=(30+Math.random()*40)+'%'; s.style.top=(20+Math.random()*60)+'%'; s.style.width=s.style.height=(2+Math.random()*6)+'px'; s.style.borderRadius='50%'; s.style.background=(Math.random()>0.5? 'var(--accent1)' : 'var(--accent2)'); s.style.opacity='0.9'; s.style.pointerEvents='none'; document.body.appendChild(s); s.animate([{opacity:1,transform:'scale(1)'},{opacity:0,transform:'scale(0.3)'}],{duration:900+Math.random()*800}); setTimeout(()=>s.remove(),1800); } }
+
+    // Music via WebAudio (short jingle)
+    let audioCtx, osc; document.getElementById('musicBtn').addEventListener('click',()=>{
+      if(!audioCtx){ audioCtx=new (window.AudioContext||window.webkitAudioContext)(); const gain=audioCtx.createGain(); gain.gain.value=0.06; gain.connect(audioCtx.destination); osc=audioCtx.createOscillator(); osc.type='sine'; osc.connect(gain); let now=audioCtx.currentTime; const notes=[440,523,660,880,660,523,440]; osc.start(); notes.forEach((n,i)=>osc.frequency.setValueAtTime(n, now + i*0.18)); setTimeout(()=>{ osc.stop(); audioCtx=null; }, 1700); }
+    });
+
+    // initial tiny intro animation
+    document.querySelector('.text').animate([{filter:'brightness(1)'},{filter:'brightness(1.18)'}],{duration:700,iterations:6,direction:'alternate'});
+    document.getElementById('cakeImg').animate([{transform:'translateY(0)'},{transform:'translateY(-12px)'}],{duration:2200,iterations:Infinity,direction:'alternate'});
+
+    // helper: open modal by index (from list or surprise)
+    function openModal(i=0){ renderModal(i); modal.classList.add('show'); document.body.style.overflow='hidden'; sparkle(); }
+
+    // export renderModal to global used above
+    function renderModal(i){ mMsgs.innerHTML=''; quotes.forEach((q,idx)=>{ const el=document.createElement('div'); el.className='mq'; el.innerHTML=`<div>${escapeHtml(q.text)}</div><div class='who'>${escapeHtml(q.who)}</div>`; if(idx===i) el.style.boxShadow='0 12px 50px rgba(94,231,255,0.08)'; mMsgs.appendChild(el); }); }
+
+    // close modal on ESC
+    window.addEventListener('keydown',(e)=>{ if(e.key==='Escape') closeModal(); if(e.key.toLowerCase()==='p'){ confetti(80); spawnFire(innerWidth*0.5,innerHeight*0.35); } });
+
+    // preload images
+    ['cake.png','shabaan.jpg'].forEach(s=>{ const img=new Image(); img.src=s; });
+
+    // open modal when clicking any quote in panel was already wired above by adding listeners
+    // but for safety ensure clicking side q elements open modal
+    Array.from(document.querySelectorAll('.q')).forEach((el,idx)=>el.addEventListener('click',()=>openModal(idx)));
+
+    // Attach event to surprise (open modal and highlight selected quote)
+    surpriseBtn.addEventListener('click',()=>openModal(0));
+
+    // attach confetti/party shortcuts
+    document.getElementById('confettiBtn').addEventListener('click',()=>confetti(40));
+
+    // small utility: make sure modal content div exists as variable used above
+    const mMsgsDiv = document.getElementById('mMsgs'); if(!mMsgsDiv) window.mMsgs=document.createElement('div');
+
+    // End
+  </script>
+</body>
+</html>
