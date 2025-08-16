@@ -1,327 +1,103 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Happy Birthday Shabaan — Waiz Signature</title>
-<meta name="theme-color" content="#0b0b0e">
-<style>
-  :root{
-    --bg:#09090c;
-    --panel:#111117;
-    --ink:#f3f3f7;
-    --muted:#a5a5b2;
-    --gold:#d4af37;
-    --ring:rgba(212,175,55,.25);
-    --accent:#e070ff;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0; background:var(--bg); color:var(--ink);
-    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, Noto Sans, 'Apple Color Emoji','Segoe UI Emoji';
-    letter-spacing:.2px; overflow-x:hidden;
-  }
-  /* Royal background */
-  .bg-layer{
-    position:fixed; inset:0; z-index:-2; pointer-events:none;
-    background:
-      radial-gradient(1200px 600px at 85% -10%, rgba(212,175,55,.08), transparent 60%),
-      radial-gradient(900px 400px at 10% 0%, rgba(255,255,255,.05), transparent 60%),
-      linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0) 40%);
-  }
-  .bg-noise{
-    position:fixed; inset:0; z-index:-1; pointer-events:none; opacity:.07;
-    background-image: url('images/balloons.png');
-    background-size: 700px auto;
-    background-repeat: repeat;
-    filter: saturate(1.1) contrast(1.05);
-  }
-  /* Top nav minimal mark */
-  .topbar{max-width:1100px; margin:0 auto; padding:18px 22px; display:flex; align-items:center; gap:10px}
-  .mark{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;
-    border:1px solid rgba(212,175,55,.35);
-    background:linear-gradient(180deg, rgba(212,175,55,.18), rgba(212,175,55,.05));
-    font-weight:800; letter-spacing:1px;
-  }
-  .spacer{flex:1}
-  .ghost, .primary{
-    border:1px solid rgba(255,255,255,.12);
-    background:transparent; color:var(--ink);
-    padding:10px 14px; border-radius:12px; cursor:pointer;
-    transition: transform .08s ease, border-color .2s ease, background .2s ease, box-shadow .2s ease;
-  }
-  .ghost:hover{transform:translateY(-1px); border-color:rgba(255,255,255,.2)}
-  .primary{
-    border-color: var(--gold);
-    background: linear-gradient(180deg, rgba(212,175,55,.18), rgba(212,175,55,.08));
-  }
-  .primary:hover{transform:translateY(-1px); box-shadow:0 0 0 6px var(--ring)}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Happy Birthday Shabaan 🎉</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{
+      height:100vh;
+      background: radial-gradient(circle at center, #0d0d25 0%, #050512 100%);
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      font-family: 'Poppins', sans-serif;
+      overflow:hidden;color:white
+    }
 
-  /* Hero */
-  .container{max-width:1100px; margin:0 auto; padding:10px 22px 40px}
-  .hero{display:grid; grid-template-columns: 1.2fr .8fr; gap:24px; align-items:center; margin-top:18px}
-  .hero-left{padding:16px 6px}
-  .eyebrow{color:var(--muted); font-size:14px; letter-spacing:.3px; text-transform:uppercase}
-  .title{
-    font-size: clamp(36px, 6vw, 72px);
-    line-height:1.05; margin:8px 0 10px 0; font-weight:900; letter-spacing:.6px;
-    background: linear-gradient(92deg, #ffffff 0%, #ffe4a3 35%, #ffd26a 55%, #ffffff 70%);
-    -webkit-background-clip:text; background-clip:text; color:transparent;
-    text-shadow: 0 0 12px rgba(212,175,55,.18);
-  }
-  .subtitle{color:var(--muted); font-size:16px; margin-top:6px}
-  .actions{margin-top:18px; display:flex; gap:10px; flex-wrap:wrap}
+    /* Front Title */
+    h1{
+      font-size:70px;
+      font-weight:900;
+      text-transform:uppercase;
+      text-align:center;
+      color:#fff;
+      text-shadow:0 0 10px #ff00de,0 0 20px #00e0ff,0 0 40px #ff00de,0 0 80px #00e0ff;
+      animation:glow 2s ease-in-out infinite alternate;
+    }
+    @keyframes glow{
+      from{text-shadow:0 0 10px #ff00de,0 0 20px #00e0ff;}
+      to{text-shadow:0 0 20px #ff00de,0 0 40px #00e0ff,0 0 80px #ff00de;}
+    }
 
-  .hero-card{
-    background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));
-    border:1px solid rgba(255,255,255,.1); border-radius:18px; padding:18px;
-    backdrop-filter: blur(4px);
-  }
-  .cake-wrap{display:grid; place-items:center; padding:12px}
-  .cake{
-    width:min(100%, 380px); height:auto; border-radius:16px;
-    border:1px solid rgba(255,255,255,.12);
-    box-shadow: 0 10px 50px rgba(212,175,55,.12);
-    object-fit:cover; background:#0e0e12;
-  }
-  .cake[alt="cake"]:not([src]){display:none}
+    /* Cake Image */
+    .cake{
+      width:280px;height:280px;margin-top:30px;
+      border-radius:20px;overflow:hidden;
+      box-shadow:0 0 30px rgba(255,255,255,0.3);
+      animation:float 3s ease-in-out infinite;
+    }
+    .cake img{width:100%;height:100%;object-fit:cover}
+    @keyframes float{
+      0%,100%{transform:translateY(0)}
+      50%{transform:translateY(-15px)}
+    }
 
-  /* Surprise Panel */
-  .panel{
-    margin-top:20px; display:none; transform-origin: 50% 0%;
-    animation: pop .5s cubic-bezier(.2,.9,.2,1) forwards;
-  }
-  @keyframes pop { from{opacity:0; transform: scale(.97)} to{opacity:1; transform: scale(1)} }
-  .panel-inner{display:grid; grid-template-columns: .9fr 1.1fr; gap:18px}
-  .panel-photo{
-    border-radius:18px; overflow:hidden; border:1px solid rgba(255,255,255,.1);
-    background:#0e0e12;
-  }
-  .panel-photo img{width:100%; height:100%; object-fit:cover; display:block}
-  .quotes{
-    display:flex; flex-direction:column; gap:12px;
-  }
-  .quote-card{
-    border:1px solid rgba(255,255,255,.1); border-radius:16px; padding:16px;
-    background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
-    font-size:20px; line-height:1.6; position:relative; min-height:120px;
-  }
-  .quote-card::before{
-    content:"“"; position:absolute; left:10px; top:-14px; font-size:60px; opacity:.15;
-  }
-  .quote-author{color:var(--muted); font-size:14px; margin-top:6px}
-  .dots{display:flex; gap:6px; align-items:center; justify-content:center; margin-top:6px}
-  .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.22)}
-  .dot.on{background:var(--gold)}
+    /* Surprise button */
+    .btn{
+      margin-top:30px;padding:14px 28px;font-size:18px;
+      background:linear-gradient(45deg,#ff00de,#00e0ff);
+      color:white;border:none;border-radius:30px;cursor:pointer;
+      box-shadow:0 0 20px rgba(255,0,222,0.6);
+      transition:all .3s ease;
+    }
+    .btn:hover{transform:scale(1.1);box-shadow:0 0 30px rgba(0,224,255,0.8)}
 
-  /* Footer */
-  .footer{color:var(--muted); text-align:center; padding:22px 0; font-size:13px}
-  .sig{opacity:.8}
+    /* Hidden content */
+    .hidden{
+      display:none;margin-top:30px;text-align:center;
+      animation:fadeIn 1s forwards;
+    }
+    @keyframes fadeIn{from{opacity:0;transform:scale(0.9);}to{opacity:1;transform:scale(1);}}
 
-  /* Canvas fireworks/confetti */
-  canvas#fx{position:fixed; inset:0; pointer-events:none; z-index:2}
+    .hidden img{
+      width:200px;height:200px;border-radius:16px;margin-bottom:20px;
+      box-shadow:0 0 25px rgba(255,255,255,0.3);
+    }
 
-  /* Balloons (lightweight) */
-  .balloon{position:fixed; bottom:-120px; width:32px; height:40px; border-radius:16px 16px 16px 16px/22px 22px 18px 18px;
-    border:1px solid rgba(255,255,255,.18); background: radial-gradient(100% 100% at 30% 30%, rgba(255,255,255,.4), rgba(255,255,255,.08));
-    filter: hue-rotate(var(--h,0deg)); opacity:.75; z-index:0;
-  }
-  .balloon:after{content:""; position:absolute; left:50%; bottom:-14px; width:2px; height:16px; background:rgba(255,255,255,.2); transform:translateX(-50%)}
+    .quote{
+      margin:10px auto;max-width:500px;
+      font-size:18px;line-height:1.5;
+      background:rgba(255,255,255,0.05);
+      padding:15px;border-radius:12px;
+      text-shadow:0 0 10px #00e0ff,0 0 20px #ff00de;
+      animation:glowQuote 3s infinite alternate;
+    }
+    .quote span{display:block;margin-top:8px;font-weight:bold;text-align:right;color:#ffaad5}
 
-  /* Small screens */
-  @media (max-width: 820px){
-    .hero{grid-template-columns: 1fr; text-align:center}
-    .panel-inner{grid-template-columns: 1fr}
-    .cake-wrap{order:-1}
-    .actions{justify-content:center}
-  }
-</style>
+    @keyframes glowQuote{
+      from{text-shadow:0 0 10px #ff00de,0 0 20px #00e0ff;}
+      to{text-shadow:0 0 20px #00e0ff,0 0 40px #ff00de;}
+    }
+  </style>
 </head>
 <body>
-<canvas id="fx"></canvas>
-<div class="bg-layer"></div>
-<div class="bg-noise" aria-hidden="true"></div>
+  <h1>Happy Birthday Shabaan</h1>
+  <div class="cake"><img src="cake.png" alt="Cake"/></div>
+  <button class="btn" onclick="reveal()">🎁 Surprise</button>
 
-<header class="topbar">
-  <div class="mark" title="Waiz Signature">WM</div>
-  <div class="spacer"></div>
-  <button class="ghost" id="focusBtn" aria-label="Toggle Focus">Focus</button>
-</header>
+  <div class="hidden" id="surprise">
+    <img src="shabaan.jpg" alt="Shabaan"/>
+    <div class="quote">Happy birthday, Shabaan! May your day be filled with joy, love, and everything you wish for.🌹 <span>- HSTLR</span></div>
+    <div class="quote">May your story stay brave, kind and unstoppable. <span>- Marco</span></div>
+    <div class="quote">We Are together 💙Ayan 💚Waiz 💛Faizan ❤️You 🫵 <span>- HSTLR</span></div>
+    <div class="quote">🐭🐀 Rat ka listing 💀💀 <span>- —</span></div>
+    <div class="quote">May this year bring you strength, wisdom and peace. <span>- —</span></div>
+  </div>
 
-<main class="container">
-  <section class="hero">
-    <div class="hero-left">
-      <div class="eyebrow">Royal Greeting</div>
-      <h1 class="title">Happy Birthday <span style="white-space:nowrap;">Shabaan</span></h1>
-      <p class="subtitle">HSTLE🌹: <i>Short. Strong. Royal.</i></p>
-      <div class="actions">
-        <button class="primary" id="surpriseBtn">🎁 Surprise</button>
-        <button class="ghost" id="sparkBtn">✨ Spark</button>
-      </div>
-    </div>
-
-    <div class="hero-card cake-wrap">
- 
-      <img class="cake" src="images/cake.png" alt="cake" onerror="this.style.display='none'">
-      <div class="subtitle" style="text-align:center; margin-top:10px;">
-  </section>
-
-  <section id="panel" class="panel">
-    <div class="panel-inner">
-      <div class="panel-photo">
-        <!-- Put cousin photo at images/shabaan.jpg -->
-        <img src="images/shabaan.jpg" alt="Shabaan"
-      </div>
-      <div class="quotes">
-        <div class="quote-card" id="quoteBox">
-          “A PURE MASTERPIECE IS ALWAYS A PURE MASTERPIECE 🌹”
-          <div class="quote-author">— waizmarco</div>
-        </div>
-        <div class="dots" id="dots"></div>
-      </div>
-    </div>
-  </section>
-
-  <footer class="footer">
-    © <span id="year"></span> <span class="sig">waizmarco</span> • Celebrate with grace & power
-  </footer>
-</main>
-
-<script>
-(() => {
-  const $ = (q) => document.querySelector(q);
-  const focusBtn = $('#focusBtn');
-  const surpriseBtn = $('#surpriseBtn');
-  const sparkBtn = $('#sparkBtn');
-  const panel = $('#panel');
-  const quoteBox = $('#quoteBox');
-  const dots = $('#dots');
-
-  // Year
-  $('#year').textContent = new Date().getFullYear();
-
-  // Focus mode: dim surroundings using canvas overlay opacity
-  let focusOn = false;
-  focusBtn.addEventListener('click', () => {
-    focusOn = !focusOn;
-    document.body.style.transition = 'filter .35s ease';
-    document.body.style.filter = focusOn ? 'brightness(.9) contrast(1.05)' : 'none';
-    focusBtn.textContent = focusOn ? 'Unfocus' : 'Focus';
-  });
-
-  // Quotes carousel
-  const QUOTES = [
-   {text:'Happy birthday, Shabaan! May your day be filled with joy, love, and everything you wish for.🌹', who:'HSTLR'},
-    {text:'May your story stay brave, kind and unstoppable.', who:'Marco'},
-    {text:'We Are together 💙Ayan 💚Waiz 💛Faizan ❤️You 🫵', who:'HSTLR'},
-    {text:'🐭🐀 Rat ka listing 💀💀, who:'—'},
-    {text:'May this year bring you strength, wisdom and peace.', who:'—'}
-  ];
-  let idx = 10; let timer = null;
-
-  function renderDots(){
-    dots.innerHTML='';
-    for(let i=0;i<QUOTES.length;i++){
-      const d=document.createElement('div'); d.className='dot' + (i===idx?' on':'');
-      dots.appendChild(d);
+  <script>
+    function reveal(){
+      document.getElementById('surprise').style.display='block';
     }
-  }
-  function showQuote(i){
-    idx = (i+QUOTES.length)%QUOTES.length;
-    const q = QUOTES[idx];
-    quoteBox.style.opacity='0';
-    setTimeout(()=>{
-      quoteBox.innerHTML = `“${q.text}”<div class="quote-author">${q.who!== '—' ? '— ' + q.who : ''}</div>`;
-      quoteBox.style.opacity='1';
-      renderDots();
-    }, 160);
-  }
-  function startQuotes(){
-    if(timer) clearInterval(timer);
-    timer = setInterval(()=> showQuote(idx+1), 3000);
-  }
-  renderDots();
-  startQuotes();
-
-  // Surprise button: reveal panel + fireworks + floating balloons
-  surpriseBtn.addEventListener('click', () => {
-    if(panel.style.display!=='grid' && panel.style.display!=='block'){
-      panel.style.display='block';
-      setTimeout(()=> fireworks(24), 10);
-      spawnBalloons(10);
-    } else {
-      // toggle collapse
-      panel.style.display='none';
-    }
-  });
-
-  // Spark button: mini fireworks
-  sparkBtn.addEventListener('click', () => fireworks(8));
-
-  // ===== Fireworks / Confetti (canvas) =====
-  const canvas = document.getElementById('fx');
-  const ctx = canvas.getContext('2d');
-  let W=canvas.width=window.innerWidth, H=canvas.height=window.innerHeight;
-  window.addEventListener('resize', ()=>{ W=canvas.width=innerWidth; H=canvas.height=innerHeight; });
-
-  const parts=[];
-  function fireworks(count=16){
-    const cx = Math.random()*W*0.6 + W*0.2;
-    const cy = Math.random()*H*0.3 + H*0.2;
-    for(let i=0;i<count;i++){
-      const angle = (Math.PI*2)* (i/count) + Math.random()*.5;
-      const speed = 2.5 + Math.random()*3.5;
-      parts.push({
-        x:cx, y:cy,
-        vx: Math.cos(angle)*speed,
-        vy: Math.sin(angle)*speed,
-        life: 60 + Math.random()*30,
-        size: 2 + Math.random()*2,
-        hue: Math.random()*360
-      });
-    }
-  }
-
-  function tick(){
-    ctx.clearRect(0,0,W,H);
-    for(let i=parts.length-1;i>=0;i--){
-      const p=parts[i];
-      p.x+=p.vx; p.y+=p.vy; p.vy+=0.05; p.life--;
-      ctx.beginPath();
-      ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
-      ctx.fillStyle = `hsla(${p.hue}, 90%, 60%, ${Math.max(0,p.life/80)})`;
-      ctx.fill();
-      if(p.life<=0) parts.splice(i,1);
-    }
-    requestAnimationFrame(tick);
-  }
-  tick();
-
-  // ===== Balloons =====
-  function spawnBalloons(n=8){
-    for(let i=0;i<n;i++){
-      const b=document.createElement('div');
-      b.className='balloon';
-      const x = Math.random()*100;
-      b.style.left = x+'%';
-      b.style.setProperty('--h', Math.floor(Math.random()*360)+'deg');
-      const dur = 8 + Math.random()*8;
-      const delay = Math.random()*2;
-      b.animate([
-        {transform:`translateY(0)`},
-        {transform:`translateY(-120vh)`}
-      ], {duration: dur*1000, delay: delay*1000, easing:'cubic-bezier(.2,.8,.2,1)'}).onfinish=()=> b.remove();
-      document.body.appendChild(b);
-    }
-  }
-
-  // Keyboard shortcut: press S for surprise
-  window.addEventListener('keydown', (e)=>{
-    if(e.key.toLowerCase()==='s') surpriseBtn.click();
-  });
-
-})();
-</script>
+  </script>
 </body>
 </html>
